@@ -13,17 +13,20 @@
 
 0112568
 """
+import random
 
 class MergeSort(object):
     
     def __init__(self, data):
         self.data = data
 
+    def sort(self):
+        return self.split(self.data)
+
     def split(self, data):
         """
         [7, 1, 5, 4, 0]
         """
-        print("Splitting %s" % data)
         length = len(data)
         if length <= 1:
             return data
@@ -52,7 +55,7 @@ class MergeSort(object):
         while (left_index < left_length) and (right_index < right_length):
             left_value = left[left_index]
             right_value = right[right_index]
-            if left_value < right_value:
+            if left_value <= right_value:
                 merged.append(left_value)
                 left_index += 1
             elif left_value > right_value:
@@ -63,3 +66,14 @@ class MergeSort(object):
         if right_index < right_length:
             merged.extend(right[right_index:])
         return merged
+
+def test_mergesort():
+    l = []
+    for i in xrange(1000):
+        l.append(random.randint(0, 100))
+    m = MergeSort(l)
+    m.sort()
+
+if __name__ == '__main__':
+    import timeit
+    print(timeit.timeit("test_mergesort()", setup="from __main__ import test_mergesort", number=100))
